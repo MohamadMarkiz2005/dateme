@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Date Request ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    color: white;
+}
+
+.container {
+    padding: 60px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+#yesBtn {
+    background: #4CAF50;
+    color: white;
+}
+
+#noBtn {
+    background: #ff4d4d;
+    color: white;
+    position: fixed;
+    left: 55%;
+    top: 55%;
+    z-index: 2;
+}
+
+#step2 {
+    display: none;
+    margin-top: 35px;
+}
+
+input, select {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 10px;
+    max-width: 90%;
+}
+
+#confirmBtn {
+    background: #ff4d6d;
+    color: white;
+}
+
+#result {
+    margin: 25px auto;
+    font-size: 20px;
+    line-height: 1.8;
+    max-width: 600px;
+    overflow-wrap: anywhere;
+}
+
+.heart {
+    position: fixed;
+    bottom: -50px;
+    pointer-events: none;
+    animation: float 6s linear forwards;
+    z-index: 0;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.3rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    .container {
+        padding-top: 45px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Zeynep ❤️</h1>
+
+    <h2>Will You Go On A Date With Me? 🥺</h2>
+
+    <button id="yesBtn">Yes 😍</button>
+    <button id="noBtn">No 😅</button>
+
+    <div id="step2">
+
+        <h2>Choose Our Special Day 📅</h2>
+
+        <input type="date" id="datePicker">
+
+        <br>
+
+        
+<h2>What would you prefer for our date? ❤️</h2>
+
+<select id="setting">
+    <option value="">Choose our date</option>
+    <option value="Coffee Shop ☕">Coffee Shop ☕</option>
+    <option value="Walking Together 🚶‍♂️❤️">Walking Together 🚶‍♂️❤️</option>
+    <option value="Surprise Me ❤️">Surprise Me ❤️</option>
+</select>
+        <br>
+
+        <button id="confirmBtn">
+            Confirm Our Date ❤️
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const step2 = document.getElementById("step2");
+const result = document.getElementById("result");
+const datePicker = document.getElementById("datePicker");
+
+// Prevent selecting a date in the past.
+const today = new Date();
+const localToday = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0")
+].join("-");
+
+datePicker.min = localToday;
+
+// Make the No button run away.
+function moveButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    noBtn.style.left =
+        Math.random() * Math.max(0, maxX) + "px";
+
+    noBtn.style.top =
+        Math.random() * Math.max(0, maxY) + "px";
+}
+
+noBtn.addEventListener("mouseover", moveButton);
+
+noBtn.addEventListener("click", moveButton);
+
+noBtn.addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    moveButton();
+}, { passive: false });
+
+// Reveal the date form when Yes is clicked.
+yesBtn.onclick = function() {
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    step2.style.display = "block";
+};
+
+// Confirm the date and preference.
+document.getElementById("confirmBtn").onclick = function() {
+    const date = datePicker.value;
+    const setting = document.getElementById("setting").value;
+
+    if (!date || !setting) {
+        alert("Please choose a date and your indoor/outdoor preference ❤️");
+        return;
+    }
+
+    if (date < localToday) {
+        alert("Please choose today or a future date ❤️");
+        return;
+    }
+
+    const formattedDate = new Date(
+        date + "T12:00:00"
+    ).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+
+    result.innerHTML = `
+        🎉 Yay! It's a date! 🎉
+
+        <br><br>
+
+        📅 Date: <strong>${formattedDate}</strong>
+
+        <br>
+
+        🌍 Setting: <strong>${setting}</strong>
+
+        <br><br>
+
+        💌 Zeynep,
+
+        <br><br>
+
+        Thank you for saying yes.
+        You are one of the most beautiful,
+        kind-hearted, intelligent and special
+        people I've ever met.
+
+        <br><br>
+
+        I can't wait to spend this day with you,
+        make you smile, and create memories together.
+
+        <br><br>
+
+        ❤️
+    `;
+
+    document.getElementById("confirmBtn").style.display = "none";
+};
+
+// Create floating hearts.
+function createHeart() {
+    const heart = document.createElement("div");
+
+    heart.classList.add("heart");
+    heart.textContent = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+
+    heart.style.fontSize =
+        (Math.random() * 20 + 20) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(function() {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>
